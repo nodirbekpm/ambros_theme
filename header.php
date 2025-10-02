@@ -49,11 +49,11 @@
                             <span>info@ambros.com</span>
                         </a>
                         <ul class="header_icons">
-                            <li><a href="#"><img src="./assets/images/linkedin.svg" alt="linkedin"></a></li>
-                            <li><a href="#"><img src="./assets/images/facebook.svg" alt="facebook"></a></li>
+                            <li><a href="#"><img src="<?php echo get_template_directory_uri() ?>/assets/images/linkedin.svg" alt="linkedin"></a></li>
+                            <li><a href="#"><img src="<?php echo get_template_directory_uri() ?>/assets/images/facebook.svg" alt="facebook"></a></li>
                             <li>
                                     <span class="header_close header_icon d-lg-none">
-                                        <img src="./assets/images/close.svg" alt="">
+                                        <img src="<?php echo get_template_directory_uri() ?>/assets/images/close.svg" alt="">
                                     </span>
                             </li>
                         </ul>
@@ -62,15 +62,16 @@
                     wp_nav_menu([
                         'theme_location' => 'header_menu',
                         'container'      => false,
-                        'menu_class'     => 'header_menus', // kerak bo'lsa o'zingizning klass
-                        'walker'         => new Ambros_BS_Walker(),
-                        'depth'          => 2,     // dropdown uchun yetadi
+                        'items_wrap'     => '%3$s',                 // <<< faqat <li> lar
+                        'walker'         => new Ambros_BS_Walker(), // sizning walker
+                        'depth'          => 2,
+                        'fallback_cb'    => '__return_empty_string' // fallback <ul> chiqarmasin
                     ]);
                     ?>
                 </ul>
 
                 <span class="hamburger_menu active header_icon d-lg-none">
-                        <img src="./assets/images/menu.svg" alt="">
+                        <img src="<?php echo get_template_directory_uri() ?>/assets/images/menu.svg" alt="">
                     </span>
 
                 <!-- <div class="header_contact">
@@ -78,11 +79,11 @@
                             <span>info@ambros.com</span>
                         </a>
                         <ul class="header_icons">
-                            <li class="header_linkedin"><a href="#"><img src="./assets/images/linkedin.svg" alt="linkedin"></a></li>
-                            <li class="header_facebook"><a href="#"><img src="./assets/images/facebook.svg" alt="facebook"></a></li>
+                            <li class="header_linkedin"><a href="#"><img src="<?php echo get_template_directory_uri() ?>/assets/images/linkedin.svg" alt="linkedin"></a></li>
+                            <li class="header_facebook"><a href="#"><img src="<?php echo get_template_directory_uri() ?>/assets/images/facebook.svg" alt="facebook"></a></li>
                             <li>
                                 <span class="hamburger_menu active header_icon d-lg-none">
-                                    <img src="./assets/images/menu.svg" alt="">
+                                    <img src="<?php echo get_template_directory_uri() ?>/assets/images/menu.svg" alt="">
                                 </span>
                             </li>
                         </ul>

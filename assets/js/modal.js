@@ -62,6 +62,31 @@
     }
   });
 
+  /* ===== Contact Form 7 integratsiya (success modal) ===== */
+  document.addEventListener('wpcf7mailsent', function (e) {
+    // e.target — bu aynan yuborilgan <form>
+    var $form = $(e.target);
+
+    // 1) Formaning o‘zida data-success-modal bo‘lsa, shu ishlatiladi
+    var selector =
+        $form.attr('data-success-modal')
+        // 2) Aks holda yuqoriroq konteynerda (masalan .wpcf7 yoki sizning wrapperingizda) qidiramiz
+        || $form.closest('[data-success-modal]').attr('data-success-modal')
+        // 3) Topilmasa default:
+        || '#success_modal';
+
+    open_modal($(selector));
+  }, false);
+
+  // (ixtiyoriy) xatoliklar uchun alohida modal ko‘rsatmoqchi bo‘lsangiz, shunga o‘xshash handler qo‘shasiz:
+  // document.addEventListener('wpcf7mailfailed', function (e) {
+  //   var $form = $(e.target);
+  //   var selector = $form.attr('data-error-modal')
+  //                 || $form.closest('[data-error-modal]').attr('data-error-modal')
+  //                 || '#error_modal';
+  //   open_modal($(selector));
+  // }, false);
+
   // Expose simple API (ixtiyoriy)
   window.open_modal = function (selector) { open_modal($(selector)); };
   window.close_modal = function (selector) { close_modal($(selector)); };
