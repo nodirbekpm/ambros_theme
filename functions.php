@@ -25,6 +25,150 @@ add_action('after_setup_theme', 'ambros_theme_setup');
 
 
 /**
+ * HEADER va FOOTER menus
+ */
+//add_action('after_switch_theme', function () {
+//    if (get_theme_mod('ambros_menus_seeded')) return;
+//
+//    // Header menu
+//    $header_menu_name = 'Header Menu';
+//    $header_menu = get_term_by('name', $header_menu_name, 'nav_menu');
+//    $header_menu_id = $header_menu ? (int)$header_menu->term_id : wp_create_nav_menu($header_menu_name);
+//
+//    // Footer menu
+//    $footer_menu_name = 'Footer Menu';
+//    $footer_menu = get_term_by('name', $footer_menu_name, 'nav_menu');
+//    $footer_menu_id = $footer_menu ? (int)$footer_menu->term_id : wp_create_nav_menu($footer_menu_name);
+//
+//    // ——— HEADER ITEMS ———
+//    // About Us (dropdown)
+//    $about_parent = wp_update_nav_menu_item($header_menu_id, 0, [
+//        'menu-item-title'  => 'About Us',
+//        'menu-item-url'    => '#',
+//        'menu-item-status' => 'publish',
+//    ]);
+//    foreach ([
+//                 ['Overview', '#'],
+//                 ['Leadership', '#'],
+//                 ['Board of Directors', '#'],
+//                 ['Investors', '#'],
+//             ] as [$title, $url]) {
+//        wp_update_nav_menu_item($header_menu_id, 0, [
+//            'menu-item-title'      => $title,
+//            'menu-item-url'        => $url,
+//            'menu-item-status'     => 'publish',
+//            'menu-item-parent-id'  => $about_parent,
+//        ]);
+//    }
+//
+//    // Science (dropdown)
+//    $science_parent = wp_update_nav_menu_item($header_menu_id, 0, [
+//        'menu-item-title'  => 'Science',
+//        'menu-item-url'    => '#',
+//        'menu-item-status' => 'publish',
+//    ]);
+//    foreach ([
+//                 ['Overview', '#'],
+//                 ['Pipeline', '#pipeline'],
+//                 ['Neridronate', '#'],
+//                 ['Publications & Posters', '#'],
+//             ] as [$title, $url]) {
+//        wp_update_nav_menu_item($header_menu_id, 0, [
+//            'menu-item-title'      => $title,
+//            'menu-item-url'        => $url,
+//            'menu-item-status'     => 'publish',
+//            'menu-item-parent-id'  => $science_parent,
+//        ]);
+//    }
+//
+//    // Oddiy top-levellar
+//    foreach ([
+//                 ['Team', '#'],
+//                 ['About us', '#'],
+//                 ['Contact', '#contact'],
+//             ] as [$title, $url]) {
+//        wp_update_nav_menu_item($header_menu_id, 0, [
+//            'menu-item-title'  => $title,
+//            'menu-item-url'    => $url,
+//            'menu-item-status' => 'publish',
+//        ]);
+//    }
+//
+//    // ——— FOOTER ITEMS ———
+//    foreach ([
+//                 ['Privacy Policy', home_url('/privacy-policy/')],
+//                 ['Science', '#'],
+//                 ['Team', '#'],
+//                 ['About us', '#'],
+//                 ['Contact', '#contact'],
+//             ] as [$title, $url]) {
+//        wp_update_nav_menu_item($footer_menu_id, 0, [
+//            'menu-item-title'  => $title,
+//            'menu-item-url'    => $url,
+//            'menu-item-status' => 'publish',
+//        ]);
+//    }
+//
+//    // Menyularni lokatsiyalarga bog'lash
+//    $locations = get_theme_mod('nav_menu_locations', []);
+//    $locations['header_menu'] = $header_menu_id;
+//    $locations['footer_menu'] = $footer_menu_id;
+//    set_theme_mod('nav_menu_locations', $locations);
+//
+//    // Flag — endi qayta-seed bo'lmasin
+//    set_theme_mod('ambros_menus_seeded', 1);
+//});
+
+// 3) Header uchun Bootstrap 5 dropdownga mos custom walker
+class Ambros_BS_Walker extends Walker_Nav_Menu {
+    // Child bor-li uchun flag
+    public function display_element($el, &$children, $max_depth, $depth, $args, &$output) {
+        if (!$el) return;
+        $id_field = $this->db_fields['id'];
+        $args[0]->has_children = !empty($children[$el->$id_field]);
+        parent::display_element($el, $children, $max_depth, $depth, $args, $output);
+    }
+
+    public function start_lvl( &$output, $depth = 0, $args = null ) {
+        $indent = str_repeat("\t", $depth);
+        $output .= "\n$indent<ul class=\"dropdown-menu\">\n";
+    }
+
+    public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
+        $classes = empty($item->classes) ? [] : (array) $item->classes;
+        $has_children = !empty($args->has_children);
+
+        // <li> classes
+        $li_classes = $classes;
+        if ($has_children && $depth === 0) $li_classes[] = 'dropdown';
+        $li_class = implode(' ', array_filter(array_unique($li_classes)));
+
+        $output .= '<li class="'. esc_attr($li_class) .'">';
+
+        $title = esc_html($item->title);
+        $url   = !empty($item->url) ? $item->url : '#';
+
+        if ($has_children && $depth === 0) {
+            // Siz so'raganidek <span class="dropdown-toggle"> bilan
+            $output .= '<span class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">'
+                .  $title
+                .  '</span>';
+        } else {
+            $link_class = ($depth > 0) ? 'dropdown-item' : '';
+            $output .= '<a class="'. esc_attr($link_class) .'" href="'. esc_url($url) .'">'. $title .'</a>';
+        }
+    }
+
+    public function end_el( &$output, $item, $depth = 0, $args = null ) {
+        $output .= "</li>\n";
+    }
+}
+
+
+
+
+
+/**
  * CPT faylini ulash
  */
 
@@ -241,3 +385,21 @@ add_action('admin_action_duplicate_post', function () {
     wp_safe_redirect(admin_url('post.php?action=edit&post=' . $new_post_id));
     exit;
 });
+
+
+/**
+ *  ACF OPTION PAGE
+ */
+if ( function_exists('acf_add_options_page') ) {
+
+    acf_add_options_page(array(
+        'page_title'  => 'Site Settings',
+        'menu_title'  => 'Site Settings',
+        'menu_slug'   => 'site-settings',
+        'capability'  => 'edit_posts',
+        'redirect'    => false,
+        'position'    => 2,
+        'icon_url'    => 'dashicons-admin-generic',
+    ));
+
+}

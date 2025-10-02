@@ -4,28 +4,38 @@
     <div class="container">
         <div class="footer_main">
             <div class="footer_desc">
-                <p>
-                    © Copyright - Ambros Therapeutics, Inc.
-                </p>
+                <!-- Copyright -->
+                <?php if ($copyright = get_field('copyright', 'option')): ?>
+                    <p>© <?php echo esc_html($copyright); ?></p>
+                <?php endif; ?>
             </div>
-            <ul class="footer_menus">
-                <li>
-                    <a href="#">Science</a>
-                </li>
-                <li>
-                    <a href="#">Team</a>
-                </li>
-                <li>
-                    <a href="#">About us</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
-            </ul>
-            <ul class="footer_icons">
-                <li><a href="#"><img src="<?php echo get_template_directory_uri() ?>/assets/images/linkedin.svg" alt="linkedin"></a></li>
-                <li><a href="#"><img src="<?php echo get_template_directory_uri() ?>/assets/images/facebook.svg" alt="facebook"></a></li>
-            </ul>
+            <?php
+            wp_nav_menu([
+                'theme_location' => 'footer_menu',
+                'container'      => false,
+                'menu_class'     => 'footer_menus',
+                'depth'          => 1, // footerda dropdown kerak emas
+            ]);
+            ?>
+            <!-- Socials -->
+            <?php if (have_rows('socials', 'option')): ?>
+                <ul class="footer_icons">
+                    <?php while (have_rows('socials', 'option')): the_row();
+                        $icon = get_sub_field('icon');
+                        $link = get_sub_field('link');
+                        ?>
+                        <?php if ($link && $icon): ?>
+                            <li>
+                                <a href="<?php echo esc_url($link['url']); ?>"
+                                   target="<?php echo esc_attr($link['target'] ?: '_self'); ?>">
+                                    <img src="<?php echo esc_url($icon['url']); ?>"
+                                         alt="<?php echo esc_attr($icon['alt'] ?: $link['title']); ?>">
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                    <?php endwhile; ?>
+                </ul>
+            <?php endif; ?>
         </div>
     </div>
 </footer>
@@ -80,6 +90,35 @@
         setTimeout(hideLoader, 8000);
     })();
 </script>
+
+<!--Header-->
+<script>
+    (function () {
+        const header = document.getElementById('header');
+        if (!header) return;
+
+        function getScrollY() {
+            // Brauzerlar orasida moslashuvchan scroll olish
+            return window.pageYOffset
+                ?? document.documentElement.scrollTop
+                ?? document.body.scrollTop
+                ?? 0;
+        }
+
+        function onScroll() {
+            header.classList.toggle('is-sticky', getScrollY() > 1);
+        }
+
+        // Dastlabki holat va listner
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', onScroll, { once: true });
+        } else {
+            onScroll();
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+</script>
+
 <script src="<?php echo get_template_directory_uri() ?>/assets/js/modal.js"></script>
 <script src="<?php echo get_template_directory_uri() ?>/assets/js/scripts.js"></script>
 </body>

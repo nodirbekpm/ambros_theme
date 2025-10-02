@@ -30,51 +30,63 @@
 <div class="wrapper">
 
     <!-- header -->
-    <div class="hero">
-        <header class="header" id="header">
-            <div class="container-fluid">
-                <div class="header_block">
-                    <ul class="header_menus">
-                        <div class="header_contact menu_item">
-                            <a href="mailto:info@ambros.com">
-                                <span>info@ambros.com</span>
-                            </a>
-                            <ul class="header_icons">
-                                <li><a href="#"><img src="<?php echo get_template_directory_uri() ?>/assets/images/linkedin.svg" alt="linkedin"></a></li>
-                                <li><a href="#"><img src="<?php echo get_template_directory_uri() ?>/assets/images/facebook.svg" alt="facebook"></a></li>
-                                <li>
-                                        <span class="header_close header_icon d-lg-none">
-                                            <img src="<?php echo get_template_directory_uri() ?>/assets/images/close.svg" alt="">
-                                        </span>
-                                </li>
-                            </ul>
-                        </div>
-                        <li><a href="#">Science</a></li>
-                        <li><a href="#">Team</a></li>
-                        <li><a href="#">About us</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                    <div class="header_logo">
-                        <a href="#" class="logo">
-                            <img src="<?php echo get_template_directory_uri() ?>/assets/images/logo.svg" alt="">
-                        </a>
-                    </div>
+    <header class="header" id="header">
+        <div class="container-fluid">
+            <div class="header_block">
+                <div class="header_logo">
+                    <a href="#" class="logo">
+                        <?php if ($logo = get_field('logo', 'option')): ?>
+                            <img src="<?php echo esc_url($logo['url']); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+                        <?php else: ?>
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo.svg" alt="close">
+                        <?php endif; ?>
+                    </a>
+                </div>
 
-                    <div class="header_contact">
-                        <a class="header_email" href="mailto:info@ambros.com">
+                <ul class="header_menus">
+                    <div class="header_contact menu_item">
+                        <a href="mailto:info@ambros.com">
                             <span>info@ambros.com</span>
                         </a>
                         <ul class="header_icons">
-                            <li class="header_linkedin"><a href="#"><img src="<?php echo get_template_directory_uri() ?>/assets/images/linkedin.svg" alt="linkedin"></a></li>
-                            <li class="header_facebook"><a href="#"><img src="<?php echo get_template_directory_uri() ?>/assets/images/facebook.svg" alt="facebook"></a></li>
+                            <li><a href="#"><img src="./assets/images/linkedin.svg" alt="linkedin"></a></li>
+                            <li><a href="#"><img src="./assets/images/facebook.svg" alt="facebook"></a></li>
                             <li>
-                                <!-- hamburger_mobile -->
-                                <span class="hamburger_menu active header_icon d-lg-none">
-                                        <img src="<?php echo get_template_directory_uri() ?>/assets/images/menu.svg" alt="">
+                                    <span class="header_close header_icon d-lg-none">
+                                        <img src="./assets/images/close.svg" alt="">
                                     </span>
                             </li>
                         </ul>
                     </div>
-                </div>
+                    <?php
+                    wp_nav_menu([
+                        'theme_location' => 'header_menu',
+                        'container'      => false,
+                        'menu_class'     => 'header_menus', // kerak bo'lsa o'zingizning klass
+                        'walker'         => new Ambros_BS_Walker(),
+                        'depth'          => 2,     // dropdown uchun yetadi
+                    ]);
+                    ?>
+                </ul>
+
+                <span class="hamburger_menu active header_icon d-lg-none">
+                        <img src="./assets/images/menu.svg" alt="">
+                    </span>
+
+                <!-- <div class="header_contact">
+                        <a class="header_email" href="mailto:info@ambros.com">
+                            <span>info@ambros.com</span>
+                        </a>
+                        <ul class="header_icons">
+                            <li class="header_linkedin"><a href="#"><img src="./assets/images/linkedin.svg" alt="linkedin"></a></li>
+                            <li class="header_facebook"><a href="#"><img src="./assets/images/facebook.svg" alt="facebook"></a></li>
+                            <li>
+                                <span class="hamburger_menu active header_icon d-lg-none">
+                                    <img src="./assets/images/menu.svg" alt="">
+                                </span>
+                            </li>
+                        </ul>
+                    </div> -->
             </div>
-        </header>
+        </div>
+    </header>

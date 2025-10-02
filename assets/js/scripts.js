@@ -43,7 +43,7 @@ $(document).ready(function () {
       768: {
         slidesPerView: 1.8,   
       },
-            380: {
+      380: {
         slidesPerView: 1.2,
       }
     },
@@ -64,9 +64,6 @@ $(document).ready(function () {
     $('body').css('overflow', '');
   });
 
-
-
-
   /** -------------------------------
    *  HAMBURGER MENU
    * --------------------------------*/
@@ -81,6 +78,38 @@ $(document).ready(function () {
     $(".header_menus").removeClass("active");
     $('body').removeClass('no_scroll');
   });
+
+$(".header_menus li a").on('click', function (e) {
+  var href = $(this).attr('href') || '';
+
+  if (href.startsWith('#') && href.length > 1) {
+    e.preventDefault();
+
+    $(".header_menus").removeClass("active");
+    $('body').removeClass('no_scroll');
+
+    var id = href.replace(/^#/, '');
+    var isMobile = window.innerWidth <= 992;
+
+    var $target = isMobile ? $('#' + id + '-mobile') : $('#' + id + '-desktop');
+    if (!$target.length) $target = $('#' + id);            
+    if (!$target.length) $target = $('[name="' + id + '"]');     
+
+    if ($target.length) {
+      var headerH = $('.header').outerHeight() || 0;
+      var extra = parseInt($(this).data('offset'), 10);
+      if (isNaN(extra)) extra = 0;
+
+      var top = Math.max(0, $target.offset().top - headerH - extra);
+
+      $('html, body').stop().animate({ scrollTop: top }, 500);
+    }
+  } else {
+    $(".header_menus").removeClass("active");
+    $('body').removeClass('no_scroll');
+  }
+});
+
 
   $(".menu_item a").on("click", function (e) {
     e.preventDefault();
@@ -101,7 +130,13 @@ $(document).ready(function () {
     }
   });
 
-
+  /* ================================
+ *  PIPELINE
+ * ================================ */
+ $(".grid--flex_align-middle").on("click", function(e) {
+    e.preventDefault();
+    $(".pipeline_icon").toggleClass("fa-plus fa-minus");
+});
 
 
 });

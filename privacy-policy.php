@@ -11,9 +11,11 @@ get_header(); ?>
         h2, h3, p{
             margin-bottom: 20px;
         }
+        .main{
+            padding-top: 122px;
+        }
     </style>
-
-    <div class="container mt-5">
+    <div class="container main mt-5">
         <?php
 
         if (have_posts()) :

@@ -1,3 +1,9 @@
+#about{
+    margin-top: 50px;
+    .mission_main{
+        grid-template-columns: 30% 60%;
+    }
+}
 .about{
     &_main{
         display: flex;
