@@ -1,4 +1,8 @@
 <?php
+/**
+ * Template Name: Main Page
+ * Description: Main Page
+ */
 get_header();
 
 // Hero
@@ -191,7 +195,7 @@ $contact_displayed = get_field('contact_displayed');
     </section>
 <?php endif; ?>
 
-    <section id="pipeline" class="pipeline">
+    <section style="display: none" id="pipeline" class="pipeline">
         <div class="container">
             <div class="pipeline_block">
                     <span class="ContentPaneDiv3">
@@ -200,7 +204,7 @@ $contact_displayed = get_field('contact_displayed');
                             <div class="module_container module_container--outer">
 
                                 <div class="module_container module_container--inner">
-                                    <h2>Focused Pipeline on a rare metabolic bone disease</h3>
+                                    <h2>Focused Pipeline on a rare metabolic bone disease</h2>
                                         <div class="module-robust-pipeline_item module-robust-pipeline_item--program">
                                             <div class="module-robust-pipeline_header">
                                                 <div class="grid grid--flex grid--flex_align-middle">
@@ -366,11 +370,11 @@ $contact_displayed = get_field('contact_displayed');
 
                         <div class="step_body">
                             <?php if (!empty($step['title'])): ?>
-                                <h3 class="step_title"><?php echo esc_html($step['title']); ?></h3>
-                            <?php endif; ?>
-
-                            <?php if (!empty($step['text'])): ?>
-                                <p class="step_text"><?php echo esc_html($step['text']); ?></p>
+                                <h3 class="step_title">
+                                    <a href="/science">
+                                        <?php echo esc_html($step['title']); ?>
+                                    </a>
+                                </h3>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -686,12 +690,13 @@ $contact_displayed = get_field('contact_displayed');
 <?php endif; ?>
 
 
+<?php if ($contact_displayed !== "No"): ?>
     <section class="contact">
         <div class="container">
             <div class="contact_card">
                 <div class="contact_card_left">
-                    <h2>Contact Us</h2>
-                    <p>Learn more about CRPS-1 and Neridronate</p>
+                    <h2><?= $contact_title ?></h2>
+                    <p><?= $contact_text ?></p>
                     <div class="contact_card_arrow">
                         <svg xmlns="http://www.w3.org/2000/svg" width="138" height="12" viewBox="0 0 138 12"
                              fill="none">
@@ -762,6 +767,7 @@ $contact_displayed = get_field('contact_displayed');
             </div>
         </div>
     </section>
+<?php endif; ?>
 
     <!-- ==== TRIGGER ==== -->
     <!-- <button class="btn_open_modal" data_modal_target="#success_modal">Open modal</button> -->

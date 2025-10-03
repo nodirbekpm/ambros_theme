@@ -5,25 +5,24 @@
  */
 
 get_header(); ?>
-    </div>
-
     <style>
         h2, h3, p{
             margin-bottom: 20px;
         }
-        .main{
-            padding-top: 122px;
-        }
     </style>
-    <div class="container main mt-5">
-        <?php
+    <main>
+        <section>
+            <div class="container mt-5">
+                <?php
 
-        if (have_posts()) :
-            while (have_posts()) : the_post();
-                the_content();
-            endwhile;
-        endif;
-        ?>
-    </div>
+                if (have_posts()) :
+                    while (have_posts()) : the_post();
+                        the_content();
+                    endwhile;
+                endif;
+                ?>
+            </div>
+        </section>
+    </main>
 
 <?php get_footer();

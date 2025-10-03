@@ -34,7 +34,7 @@
         <div class="container-fluid">
             <div class="header_block">
                 <div class="header_logo">
-                    <a href="#" class="logo">
+                    <a href="<?php echo home_url(); ?>" class="logo">
                         <?php if ($logo = get_field('logo', 'option')): ?>
                             <img src="<?php echo esc_url($logo['url']); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
                         <?php else: ?>

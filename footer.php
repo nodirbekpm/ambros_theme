@@ -6,7 +6,7 @@
             <div class="footer_desc">
                 <!-- Copyright -->
                 <?php if ($copyright = get_field('copyright', 'option')): ?>
-                    <p>© <?php echo esc_html($copyright); ?></p>
+                    <?php echo esc_html($copyright); ?>
                 <?php endif; ?>
             </div>
             <?php
