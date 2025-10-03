@@ -41,9 +41,7 @@ $steps2_displayed = get_field('steps2_displayed');
                             <?php foreach ($crps_texts as $crps_text): ?>
                                 <p><?= $crps_text['text'] ?></p>
                             <?php endforeach; ?>
-                            <div>
-                                <a href="#about_neridronate" class="btn">Learn more</a>
-                            </div>
+
                         </div>
                         <div class="about_right">
                             <img src="<?php echo $crps_image['url'] ?>"

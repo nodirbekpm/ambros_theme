@@ -95,5 +95,25 @@ $contact_displayed = get_field('contact_displayed');
     </main>
 
 
+    <!-- ==== MODAL ==== -->
+    <div id="success_modal" class="modal_container" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal_backdrop"></div>
+
+        <div class="modal_dialog" role="document" aria-labelledby="demo_modal_title">
+            <button type="button" class="close" aria-label="Close" title="Close">
+                <img src="<?php echo get_template_directory_uri() ?>/assets/images/close.svg" alt="close">
+            </button>
+
+
+            <div class="modal_body">
+                <div class="modal_message success">
+                    <img src="<?php echo get_template_directory_uri() ?>/assets/images/check.svg" alt="success">
+                </div>
+                <div class="modal_title">Thank you for your request!</div>
+                <p class="modal_text">We will contact you shortly</p>
+            </div>
+        </div>
+    </div>
+
 
 <?php get_footer();

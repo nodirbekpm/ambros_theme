@@ -148,7 +148,7 @@ $contact_displayed = get_field('contact_displayed');
                                 <p><?= $crps_text['text'] ?></p>
                             <?php endforeach; ?>
                             <div>
-                                <a href="#about_neridronate" class="btn">Learn more</a>
+                                <a href="/science" class="btn">Learn more</a>
                             </div>
                         </div>
                         <div class="about_right">
@@ -171,7 +171,7 @@ $contact_displayed = get_field('contact_displayed');
                             <h2><?= $neridronate_title ?></h2>
                             <p><?= $neridronate_text ?></p>
                             <div>
-                                <a href="#" class="btn">Learn more</a>
+                                <a href="/science" class="btn">Learn more</a>
                             </div>
                         </div>
                         <div class="about_right">
@@ -357,21 +357,10 @@ $contact_displayed = get_field('contact_displayed');
             <div class="steps_block">
                 <?php foreach ($steps as $step): ?>
                     <div class="step">
-                        <div class="step_header">
-                            <div class="step_number">01</div>
-
-                            <?php if (!empty($step['image'])): ?>
-                                <div class="step_img">
-                                    <img src="<?php echo esc_url($step['image']['url']); ?>"
-                                         alt="<?php echo esc_attr($step['image']['alt']); ?>">
-                                </div>
-                            <?php endif; ?>
-                        </div>
-
                         <div class="step_body">
                             <?php if (!empty($step['title'])): ?>
                                 <h3 class="step_title">
-                                    <a href="/science">
+                                    <a style="color: rgb(15, 22, 29); font-size: 16px" href="/science">
                                         <?php echo esc_html($step['title']); ?>
                                     </a>
                                 </h3>
